@@ -1,13 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { contentModel, userModel } from "./db"
+import { contentModel, userModel, linkModel } from "./db"
 import { userMiddleware } from "./middleware";
 const JWT_USER_PASSWORD = "12345"
+import { random } from "./util";
 const app = express();
 app.use(express.json());
-
-
 
 
 app.post("/api/v1/signup", async (req,res) => {
@@ -60,7 +59,6 @@ try{
     
 })
 
-
 app.post("/api/v1/content", userMiddleware, async (req,res) => {
     const type = req.body.type
     const url = req.body.url
@@ -84,7 +82,9 @@ try{
     })
 }
 
+
 })
+
 app.get("/api/v1/content", userMiddleware, async(req,res) => {
     //@ts-ignore
     const userId = req.userId
@@ -96,6 +96,7 @@ app.get("/api/v1/content", userMiddleware, async(req,res) => {
     })
 
 })
+
 app.delete("/api/v1/content",userMiddleware ,async (req,res) =>{
     const contentId = req.body.contentId;
     await contentModel.deleteMany({
@@ -104,6 +105,67 @@ app.delete("/api/v1/content",userMiddleware ,async (req,res) =>{
         userId: req.userId
     })
 
+})
+
+app.post("/api/v1/brain/share",userMiddleware, async(req,res) => {
+    const share = req.body.share;
+    console.log(share)
+    if (share) {
+        const existingLink = await linkModel.findOne({
+            //@ts-ignore
+            userId: req.userId
+        })
+        if (existingLink){
+            res.json({
+                hash: existingLink.hash
+            })
+            return;
+        }
+        const hash = random(10);
+        await linkModel.create({
+            //@ts-ignore
+            userId: req.userId,
+            hash: hash
+        })
+        res.json({
+            message: "/share/" + hash
+        })
+    }else{
+        await linkModel.deleteOne({
+             //@ts-ignore
+            userId: req.userId
+        })
+        res.json({
+            message: "Share link removed"
+        })
+    }
+    
+
+})
+
+app.get("/api/v1/brain/:shareLink", async (req,res) => {
+    const hash = req.params.shareLink;
+    const link = await linkModel.findOne({
+        hash: hash
+    });
+    if(!link){
+        res.status(411).json({
+            message:'incorrect input'
+        })
+        return;
+    }
+
+    const content = await contentModel.find({
+        userId: link.userId
+    })
+    const user = await userModel.findOne({
+        _id: link.userId
+    })
+    console.log(user);
+    res.json({
+        username: user?.username,
+        content: content 
+    })
 })
 
 app.listen(3000);
