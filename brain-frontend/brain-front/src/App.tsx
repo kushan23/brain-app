@@ -1,19 +1,21 @@
 import './App.css'
-import { Button } from './components/buttons'
-import { PlusIcon } from './icons/PlusIcons'
-import { ShareIcon } from './icons/ShareIcon'
+import Dashboard from './pages/dashboard';
+import { BrowserRouter,Routes, Route } from 'react-router-dom';
+import { Signup } from './pages/Signup';
+import { Signin } from './pages/Signin';
+import ShareDashboard from './components/shareDashboard';
 function App() {
-
-  return (
-    <>
-      {/* <Button startIcon={<PlusIcon size='md' />} endIcon={<ShareIcon size='md'/>} variant="primary" size="sm" onClick={() => {}} text={"hello"}/> */}
-      <Button startIcon={<PlusIcon size='md' />} endIcon={<ShareIcon size='md'/>} variant="primary" size="md" onClick={() => {}} text={"hello"}/>
-      <Button startIcon={<PlusIcon size='sm' />} endIcon={<ShareIcon size='md'/>} variant="secondary" size="sm" onClick={() => {}} text={"hello"}/>
-      <Button startIcon={<PlusIcon size='lg' />} endIcon={<ShareIcon size='md'/>} variant="primary" size="lg" onClick={() => {}} text={"hello"}/>
-
-      </>
-
-  )
+  
+  return <BrowserRouter>
+    <Routes>
+      <Route path='/signup' element={<Signup/>} />
+      <Route path='/signin' element={<Signin/>} />
+      <Route path='/dashboard' element={<Dashboard/>} />
+      <Route path='/share/:id' element={<ShareDashboard/>} />
+    </Routes>
+  </BrowserRouter>
+      
+  
 }
 
 export default App
