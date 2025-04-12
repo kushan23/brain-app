@@ -25,7 +25,7 @@ jobs:
       run: docker push kush233/brain-backend:latest
 
     - name: Build frontend image
-      run: docker build -t kush233/brain-frontend ./brain-frontend
+      run: docker build -t kush233/brain-frontend ./brain-frontend/brain-front
     - name: Push to dockerhub
       run: docker push kush233/brain-frontend:latest
     
