@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -18,20 +19,26 @@ const db_1 = require("./db");
 const middleware_1 = require("./middleware");
 const JWT_USER_PASSWORD = "12345";
 const util_1 = require("./util");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
+const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.body.username;
     const password = req.body.password;
     // ZOD validation
     try {
         // Hash password
-        yield db_1.userModel.create({
+        const user = yield db_1.userModel.create({
             username: username,
             password: password
         });
+        const token = jsonwebtoken_1.default.sign({
+            id: user._id
+        }, JWT_USER_PASSWORD);
         res.status(200).json({
-            message: "User signed up"
+            token: token
         });
     }
     catch (error) {
@@ -55,6 +62,8 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
             res.json({
                 token: token
             });
+            console.log("hello");
+            console.log(user);
         }
         else {
             res.json(403).json({
@@ -112,7 +121,7 @@ app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __await
 }));
 app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const share = req.body.share;
-    console.log(share);
+    // console.log(share)
     if (share) {
         const existingLink = yield db_1.linkModel.findOne({
             //@ts-ignore
@@ -167,4 +176,9 @@ app.get("/api/v1/brain/:shareLink", (req, res) => __awaiter(void 0, void 0, void
         content: content
     });
 }));
-app.listen(3000);
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        message: "Backend Active"
+    });
+});
+app.listen(port);

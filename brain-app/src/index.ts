@@ -5,8 +5,12 @@ import { contentModel, userModel, linkModel } from "./db"
 import { userMiddleware } from "./middleware";
 const JWT_USER_PASSWORD = "12345"
 import { random } from "./util";
+import cors from 'cors'
 const app = express();
 app.use(express.json());
+app.use(cors());
+const port = process.env.PORT ?? 3000;
+
 
 
 app.post("/api/v1/signup", async (req,res) => {
@@ -15,12 +19,15 @@ app.post("/api/v1/signup", async (req,res) => {
     // ZOD validation
 try{
     // Hash password
-    await userModel.create({
+    const user = await userModel.create({
         username: username,
         password: password
     })
+    const token = jwt.sign({
+        id: user._id
+    }, JWT_USER_PASSWORD)
     res.status(200).json({
-        message:"User signed up"
+        token: token
     })
 }catch(error){
     res.status(411).json({
@@ -45,6 +52,8 @@ try{
         res.json({
             token: token
         })
+        console.log("hello");
+        console.log(user);
     }else{
         res.json(403).json({
             message: "Incorrect credentials"
@@ -109,7 +118,7 @@ app.delete("/api/v1/content",userMiddleware ,async (req,res) =>{
 
 app.post("/api/v1/brain/share",userMiddleware, async(req,res) => {
     const share = req.body.share;
-    console.log(share)
+    // console.log(share)
     if (share) {
         const existingLink = await linkModel.findOne({
             //@ts-ignore
@@ -165,7 +174,13 @@ app.get("/api/v1/brain/:shareLink", async (req,res) => {
     res.json({
         username: user?.username,
         content: content 
+    }) 
+})
+
+app.get("/health", (req,res) => {
+    res.status(200).json({
+        message: "Backend Active"
     })
 })
 
-app.listen(3000);
+app.listen(port);
