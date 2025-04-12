@@ -11,13 +11,18 @@ import axios from 'axios'
 function Dashboard() {
   const [modalOpen,setModalOpen] = useState(false);
   const {contents, refresh } = useContent();
+  const [filter,setFilter] = useState('all');
   useEffect(() => {
     refresh();
   }, [modalOpen])
 
+  const filteredData = filter === 'all'
+  ? contents
+  : contents.filter((item:any) => item.type === filter);
+  console.log(filteredData);
   return <div>
-    <Sidebar />
-    <div className='min-h-screen p-4 bg-gray-100 ml-72 '>
+    <Sidebar filter={filter} setFilter={setFilter} />
+    <div onClick={() => setFilter('all')} className='min-h-screen p-4 bg-gray-100 ml-72 '>
     <CreateContentModal open={modalOpen} onClose={() => { setModalOpen(false)}} />
       <div className='flex justify-end gap-4'>
       <Button size='md' onClick={() =>{ setModalOpen(true) }} variant='primary' text='Add content' startIcon={<PlusIcon size='md' />}></Button>
@@ -31,16 +36,16 @@ function Dashboard() {
             }
           }
         );
+        console.log(response);
           const shareUrl = `http://localhost:5173/share/${response.data.hash}`;
           alert(shareUrl);
-          //Add share brain page 
       }} 
       
       variant='secondary' text='Share brain' startIcon={<ShareIcon size='md' />}></Button>
       </div>
 
-      <div className='flex flex-wrap gap-5 pt-2 justify-items-start'>
-      {contents.map(({type,url,title}) => 
+      <div  className='flex flex-wrap gap-5 pt-2 justify-items-start'>
+      {filteredData.map(({type,url,title}) =>
       <Card 
       title={title} 
       link={url}

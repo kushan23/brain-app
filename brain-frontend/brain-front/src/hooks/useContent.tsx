@@ -12,6 +12,7 @@ export function useContent () {
         })
             .then((response) => {
                 setContents(response.data.content)
+                
             })
     }
 
