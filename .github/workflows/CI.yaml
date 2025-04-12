@@ -20,12 +20,12 @@ jobs:
       
     - name: Build backend image
     
-      run: docker build -t kush233/brain-app ./brain-app
+      run: docker build -t kush233/brain-backend ./brain-app
     - name: Push to dockerhub
       run: docker push kush233/brain-backend:latest
 
     - name: Build frontend image
-      run: docker build -t kush233/brain-backend ./brain-frontend
+      run: docker build -t kush233/brain-frontend ./brain-frontend
     - name: Push to dockerhub
       run: docker push kush233/brain-frontend:latest
     
