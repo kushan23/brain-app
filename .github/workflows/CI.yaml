@@ -20,7 +20,7 @@ jobs:
       
     - name: Build backend image
     
-      run: docker build -t ./brain-app kush233/brain-app .
+      run: docker build -t kush233/brain-app ./brain-app
     - name: Push to dockerhub
       run: docker push kush233/brain-backend:latest
 
