@@ -20,4 +20,4 @@ spec:
           image: kush233/brain-frontend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 5173
+            - containerPort: 4173
