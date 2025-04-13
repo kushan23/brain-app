@@ -1,10 +1,7 @@
-import { Input } from "../components/Input"
-import { Button } from "../components/buttons"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import React, { useState } from 'react';
-import { Brain, ArrowLeft } from 'lucide-react';
+import { Brain} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BACKEND_URL } from "../config";
 

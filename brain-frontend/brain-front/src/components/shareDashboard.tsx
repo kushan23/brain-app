@@ -18,7 +18,7 @@ function ShareDashboard (){
 
     
     return<div>
-    <Sidebar />
+    <Sidebar filter="" setFilter={() => {}}/>
     <div className='min-h-screen p-4 bg-gray-100 ml-72 '>
        <div className='flex flex-wrap gap-5 pt-2 justify-items-start'>
           {contents.map(({type,url,title}) => 

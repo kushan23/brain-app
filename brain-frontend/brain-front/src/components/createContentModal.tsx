@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { ShareIcon } from "../icons/ShareIcon";
 import { CrossIcon } from "../icons/Cross";
 import { Button } from "./buttons";
 import { Input } from "./Input";
@@ -9,9 +8,12 @@ enum ContentType {
     Youtube = 'youtube',
     Twitter = 'twitter'
 }
+interface CreateContentModalProps {
+    open: boolean;
+    onClose: () => void;
+  }
 
-
-export function CreateContentModal ({open, onClose}) {
+export function CreateContentModal ({open, onClose} : CreateContentModalProps) {
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
     const [type,setType] = useState(ContentType.Youtube);

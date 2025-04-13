@@ -4,8 +4,7 @@ import { SidebarItem } from "./sidebaritem"
 import { LogoutIcon } from "../icons/LogoutIcon"
 import { Logo } from "../icons/Logo"
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"
-export function Sidebar({filter,setFilter} : {
+export function Sidebar({setFilter} : {
     setFilter: (name: string) => void;
     filter: string
 }) {
