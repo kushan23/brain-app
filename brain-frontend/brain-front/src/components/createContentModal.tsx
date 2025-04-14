@@ -21,7 +21,7 @@ export function CreateContentModal ({open, onClose} : CreateContentModalProps) {
     async function addContent () {
         const title = titleRef.current?.value
         const url = linkRef.current?.value
-       const response = await axios.post(`${BACKEND_URL}/api/v1/content`,{
+       const response = await axios.post(`${BACKEND_URL}/content`,{
             url,
             title,
             type
