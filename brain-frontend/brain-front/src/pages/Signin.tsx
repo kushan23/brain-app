@@ -14,7 +14,7 @@ export function Signin (){
     const password = passwordRef.current?.value
     const username = usernameRef.current?.value
     try {
-    const response = await axios.post(BACKEND_URL + "/api/v1/signin",{
+    const response = await axios.post(BACKEND_URL + "signin",{
         data:{
             username,
             password

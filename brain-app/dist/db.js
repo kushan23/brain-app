@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.linkModel = exports.contentModel = exports.userModel = void 0;
 const { mongoose } = require('mongoose');
-mongoose.connect("mongodb+srv://k23:okay@100x.t5t9o.mongodb.net/");
-// const Schema = mongoose.Schema;
-// const Model = mongoose.model
+const dbUrl = process.env.DATABASE_URL;
+mongoose.connect(dbUrl)
 const mongoose_1 = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const userSchema = new mongoose_1.Schema({

@@ -27,7 +27,7 @@ function Dashboard() {
       <div className='flex justify-end gap-4'>
       <Button size='md' onClick={() =>{ setModalOpen(true) }} variant='primary' text='Add content' startIcon={<PlusIcon size='md' />}></Button>
       <Button size='md' onClick={async () =>{
-         const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`,{
+         const response = await axios.post(`${BACKEND_URL}/brain/share`,{
             share: true
           },
           {
@@ -37,7 +37,8 @@ function Dashboard() {
           }
         );
         console.log(response);
-          const shareUrl = `http://localhost:5173/share/${response.data.hash}`;
+        const shareUrl = `http://brain.kushan23.com/${response.data.hash}`;
+          // const shareUrl = `http://localhost:5173/share/${response.data.hash}`;
           alert(shareUrl);
       }} 
       

@@ -1,7 +1,12 @@
 const { mongoose } = require('mongoose');
-mongoose.connect("mongodb+srv://k23:okay@100x.t5t9o.mongodb.net/")
-// const Schema = mongoose.Schema;
-// const Model = mongoose.model
+const dbUrl = process.env.DATABASE_URL;
+
+if (!dbUrl) {
+    throw new Error("DATABASE_URL not set!");
+  }
+  
+mongoose.connect(dbUrl)
+
 import { Schema} from "mongoose"
 
 const ObjectId = mongoose.Types.ObjectId;
