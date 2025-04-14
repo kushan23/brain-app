@@ -21,7 +21,6 @@ export function Sidebar({setFilter} : {
         <div className="pt-3">
         <SidebarItem icon={TwitterIcon()} text={'Twitter'} setFilter={setFilter} />
         <SidebarItem icon={YoutubeIcon()} text={"Youtube"} setFilter={setFilter}/>
-        <SidebarItem icon={LogoutIcon()} text={"Logout"} setFilter={() => {}}/>
         <div onClick={() => {
             localStorage.removeItem('token');
             navigate('/')
