@@ -7,7 +7,6 @@ import { BACKEND_URL } from "../config";
 
 export function Signin (){
     const navigate = useNavigate();
-    console.log("HAHHAHHAHHAHAHHHAHAHAHA")
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     async function signin(){

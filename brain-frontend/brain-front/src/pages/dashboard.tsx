@@ -37,7 +37,7 @@ function Dashboard() {
           }
         );
         console.log(response);
-        const shareUrl = `http://brain.kushan23.com/${response.data.hash}`;
+        const shareUrl = `https://brain.kushan23.com/${response.data.hash}`;
           // const shareUrl = `http://localhost:5173/share/${response.data.hash}`;
           alert(shareUrl);
       }} 
